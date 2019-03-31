@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Gray Guardian</title>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.1/seedrandom.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Russo+One" rel="stylesheet">
+    <style media="screen">
+      html,button{
+        font-family: sans-serif;
+        letter-spacing: .5pt;
+      }
+      html{
+        text-align:center;
+      }
+      body{
+        padding:0;
+        margin:0;
+      }
+      input#seed,button{
+        padding:0 5pt;
+        height:25pt;
+        margin:5pt auto;
+        font-size:12pt;
+        border-radius:5pt;
+      }
+      button:hover{
+        background-color:gray;
+        color:white;
+        cursor:pointer;
+      }
+      .otp,.message{
+        display:none;
+      }
+      span,textarea#message{
+        display:block;
+        text-align:left;
+        font-family:monospace;
+        font-size:14pt;
+        padding:15pt;
+        border:2px solid lightgrey;
+        margin: 10px auto;
+        height:100pt;
+        width:80%;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        word-wrap:break-word;
+      }
+      #otp{
+        height:50pt;
+        padding:0 15pt;
+      }
+      h3{
+        margin-bottom:0;
+        color:#1c1c1c;
+      }
+      h1{
+        margin: 0 ;
+        padding: 10pt;
+        color:lightgrey;
+        font-weight:300;
+        background-color:gray;
+        border-bottom:10px solid lightgrey;
+        font-family: Russo One;
+      }
+      </style>
+  </head>
+  <body>
+    <h1>OPERATION GRAY GUARDIAN</h1>
+    <div class="form">
+      <h3>Seed for pseudo-random one-time pad generator</h3>
+      <input id="seed" type="text">
+      <button id="otpbutton">Generate one time pad</button>
+    </div>
+    <div class="otp"></div>
+    <div class="message">
+      <h3>Message (plaintext or ciphertext)</h3>
+      <textarea id="message" cols="80"></textarea>
+      <button id="encipher">Encipher message</button>
+      <button id="decipher">Decipher message</button>
+    </div>
+    <div class="result"></div>
+    <script>
+      function createPRNG(){
+      $(".otp").html("<span id=\"otp\"></span>");
+      $(".otp").css("display","block");
+      $(".message").css("display","block");
+      $(".otp").prepend("<h3>One-time pad</h3>");
+      $(".form button").remove();
+        seed=$("#seed").val().replace(/[^A-Za-z]/g, '').toUpperCase();
+        prng = new Math.seedrandom(seed);
+        for (var i = 0;i<2000;i++){
+          key[i]=letterAt(Math.floor(prng()*26));
+          $("#otp").append(key[i]);
+        }
+      }
+      function encipher(){
+        $("button").remove();
+        original_msg=$("#message").val().replace(/[^A-Za-z]/g, '').toUpperCase();
+        new_msg="";
+        for (var i = 0; i<original_msg.length;i++){
+          new_msg+=addLetters(original_msg.charAt(i),key[i]);
+        }
+        $(".message h3").text("Plaintext");
+        $(".result").prepend("<h3>Ciphertext</h3>");
+        $(".result").append("<span>"+new_msg+"</span>");
+        $("body").append("please refresh the page before performing any more operations.");
+      }
+      function decipher(){
+        $("button").remove();
+        original_msg=$("#message").val().replace(/[^A-Za-z]/g, '').toUpperCase();
+        new_msg="";
+        for (var i = 0; i<original_msg.length;i++){
+          new_msg+=subtractLetters(original_msg.charAt(i),key[i]);
+        }
+        $(".message h3").text("Ciphertext");
+        $(".result").prepend("<h3>Plaintext</h3>");
+        $(".result").append("<span>"+new_msg.toLowerCase()+"</span>");
+        $("body").append("please refresh the page before performing any more operations.");
+      }
+      function letterAt(alphabetPosition) {
+        return alphabet.charAt(alphabetPosition);
+      }
+      function addLetters(a,b){
+        ans=alphabet.indexOf(a)+alphabet.indexOf(b);
+        if (ans>25) {ans-=25;}
+        return letterAt(ans);
+      }
+      function subtractLetters(a,b){
+        ans=alphabet.indexOf(a)-alphabet.indexOf(b);
+        if (ans<0) {ans+=25;}
+        return letterAt(ans);
+      }
+
+      var seed, key=[], prng, original_msg, new_msg,alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      $(document).ready(function(){
+        $(document).on("click","#otpbutton",createPRNG);
+        $(document).on("click","#encipher",encipher);
+        $(document).on("click","#decipher",decipher);
+      });
+    </script>
+  </body>
+</html>

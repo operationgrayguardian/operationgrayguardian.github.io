@@ -55,7 +55,7 @@
         margin-bottom:0;
         color:#1c1c1c;
       }
-      h1{
+      .top{
         margin: 0 ;
         padding: 10pt;
         color:lightgrey;
@@ -63,11 +63,34 @@
         background-color:gray;
         border-bottom:10px solid lightgrey;
         font-family: Russo One;
+        text-align: center;
+      }
+      .top h1{
+
+        font-weight:300;
+        display: inline-block;
+        margin:0;
+        padding:0;
+      }
+      .top a{
+        padding: 0 5pt;
+        text-decoration: none;
+        display: inline-block;
+        color:lightgrey;
+        font-weight:300;
+        float:right;
+      }
+      .top a:hover{
+        background-color: #00000050;
+        border-radius: 5pt;
       }
       </style>
   </head>
   <body>
-    <h1>OPERATION GRAY GUARDIAN</h1>
+    <div class="top">
+      <h1>OPERATION GRAY GUARDIAN</h1><a href="help.html"><h1>?</h1></a>
+    </div>
+
     <div class="form">
       <h3>Seed for pseudo-random one-time pad generator</h3>
       <input id="seed" type="text">

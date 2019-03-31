@@ -113,7 +113,7 @@
       $(".form button").remove();
         seed=$("#seed").val().replace(/[^A-Za-z]/g, '').toUpperCase();
         prng = new Math.seedrandom(seed);
-        for (var i = 0;i<2000;i++){
+        for (var i = 0;i<5000;i++){
           key[i]=letterAt(Math.floor(prng()*26));
           $("#otp").append(key[i]);
         }

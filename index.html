@@ -107,8 +107,8 @@
     <script>
       function createPRNG(){
       $(".otp").html("<span id=\"otp\"></span>");
-      $(".otp").css("display","block");
-      $(".message").css("display","block");
+      $(".otp").show();
+      $(".message").show();
       $(".otp").prepend("<h3>One-time pad</h3>");
       $(".form button").remove();
         seed=$("#seed").val().replace(/[^A-Za-z]/g, '').toUpperCase();

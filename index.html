@@ -124,12 +124,12 @@
       }
       function addLetters(a,b){
         ans=alphabet.indexOf(a)+alphabet.indexOf(b);
-        if (ans>25) {ans-=25;}
+        if (ans>25) {ans-=26;}
         return letterAt(ans);
       }
       function subtractLetters(a,b){
         ans=alphabet.indexOf(a)-alphabet.indexOf(b);
-        if (ans<0) {ans+=25;}
+        if (ans<0) {ans+=26;}
         return letterAt(ans);
       }
 
